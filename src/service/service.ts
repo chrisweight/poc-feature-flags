@@ -1,7 +1,10 @@
-import { Cache } from "@stencil/core/dist/compiler/cache";
-
 export class IFeatures {
   [id: string]: boolean
+}
+
+export enum FeaturesEnvironment {
+  Green = 'green',
+  Blue = 'blue'
 }
 
 export class Service {
@@ -9,13 +12,13 @@ export class Service {
   private static ATTR_FEATURE: string = 'data-feature'
 
   private _apiUrl: string
-  private _environment: string
+  private _environment: FeaturesEnvironment
   private _root: Element
   private _features: IFeatures
   private _mObserver: MutationObserver
 
 
-  constructor(apiUrl: string, environment: string, root: Element) {
+  constructor(apiUrl: string, environment: FeaturesEnvironment, root: Element) {
     this._apiUrl      = apiUrl
     this._environment = environment
     this._root        = root
@@ -65,12 +68,12 @@ export class Service {
     }
   }
 
-  set environment(value: string) {
+  set environment(value: FeaturesEnvironment) {
     this._environment = value
     this.load()
   }
 
-  get environment(): string {
+  get environment(): FeaturesEnvironment {
     return this._environment
   }
 
@@ -84,10 +87,6 @@ export class Service {
   }
 
   private update(elements) {
-    if (elements.length < 1) {
-      return
-    }
-
     for (let i = 0; i < elements.length; i++) {
       let _element  = elements[i]
       let _fName    = _element.getAttribute(Service.ATTR_FEATURE)
@@ -98,6 +97,8 @@ export class Service {
 
       console.log(_fName, _isActive)
 
+      // TODO: HTML5 'hidden' probably isn't enough here, we actually need to do some clever DOM
+      // Removal and re-assignment
       if (!_isActive) {
         _element.setAttribute('hidden', true)
         continue

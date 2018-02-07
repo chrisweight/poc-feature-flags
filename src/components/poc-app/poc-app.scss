@@ -1,0 +1,19 @@
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+
+    button {
+      border: 1px solid grey;
+    }
+
+    .right {
+        margin-left: auto;
+
+        a {
+          padding-right: 8px;
+        }
+    }
+}

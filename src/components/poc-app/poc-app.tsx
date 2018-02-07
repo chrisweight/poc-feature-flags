@@ -1,5 +1,5 @@
 import { Component, Prop, Element } from '@stencil/core';
-import { Service } from '../../service/service';
+import { Service, FeaturesEnvironment } from '../../service/service';
 
 @Component({
   tag: 'poc-app',
@@ -21,7 +21,7 @@ export class PocApp {
   componentWillLoad() {
     console.log('PocApp.componentWillLoad()')
 
-    this.service = new Service(this.apiUrl, this.environment, this.element)
+    this.service = new Service(this.apiUrl, this.environment as FeaturesEnvironment, this.element)
     this.service.load()
   }
 
@@ -32,9 +32,9 @@ export class PocApp {
 
   onToggleEnvClick() {
     this.service
-      .environment = this.service.environment === 'green'
-        ? 'blue'
-        : 'green'
+      .environment = this.service.environment === FeaturesEnvironment.Green
+        ? FeaturesEnvironment.Blue
+        : FeaturesEnvironment.Green
   }
 
   // --
@@ -51,10 +51,11 @@ export class PocApp {
 
         <footer>
           <button onClick={() => this.onToggleEnvClick()}>Toggle Environment</button>
-          <br />
-          <a href='/'>HOME</a>
-          <br />
-          <a href='/other'>OTHER</a>
+
+          <div class='right'>
+            <stencil-route-link url='/'>Home</stencil-route-link>
+            <stencil-route-link url='/other'>Other</stencil-route-link>
+          </div>
         </footer>
       </div>
     )

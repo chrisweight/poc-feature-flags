@@ -13,7 +13,7 @@
     "start": "npm run dev",
     "test": "jest --no-cache",
     "test.watch": "jest --watch --no-cache",
-    "serve-api": "json-server ./@server/index.js"
+    "serve-api": "json-server ./@server/index.js --watch"
   },
   "dependencies": {
     "@stencil/core": "0.2.3",
