@@ -17,8 +17,7 @@
   },
   "dependencies": {
     "@stencil/core": "0.2.3",
-    "@stencil/router": "latest",
-    "mobx": "3.5.1"
+    "@stencil/router": "latest"
   },
   "devDependencies": {
     "@stencil/dev-server": "latest",

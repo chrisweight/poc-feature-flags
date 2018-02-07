@@ -8,6 +8,66 @@ import '@stencil/router';
 
 
 import {
+  PageLanding as PageLanding
+} from './components/page-landing/page-landing';
+
+declare global {
+  interface HTMLPageLandingElement extends PageLanding, HTMLElement {
+  }
+  var HTMLPageLandingElement: {
+    prototype: HTMLPageLandingElement;
+    new (): HTMLPageLandingElement;
+  };
+  interface HTMLElementTagNameMap {
+    "page-landing": HTMLPageLandingElement;
+  }
+  interface ElementTagNameMap {
+    "page-landing": HTMLPageLandingElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      "page-landing": JSXElements.PageLandingAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface PageLandingAttributes extends HTMLAttributes {
+      
+    }
+  }
+}
+
+
+import {
+  PageOther as PageOther
+} from './components/page-other/page-other';
+
+declare global {
+  interface HTMLPageOtherElement extends PageOther, HTMLElement {
+  }
+  var HTMLPageOtherElement: {
+    prototype: HTMLPageOtherElement;
+    new (): HTMLPageOtherElement;
+  };
+  interface HTMLElementTagNameMap {
+    "page-other": HTMLPageOtherElement;
+  }
+  interface ElementTagNameMap {
+    "page-other": HTMLPageOtherElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      "page-other": JSXElements.PageOtherAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface PageOtherAttributes extends HTMLAttributes {
+      
+    }
+  }
+}
+
+
+import {
   PocApp as PocApp
 } from './components/poc-app/poc-app';
 

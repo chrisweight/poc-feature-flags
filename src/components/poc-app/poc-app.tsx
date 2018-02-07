@@ -1,7 +1,5 @@
-import { Component, Prop, State, Element } from '@stencil/core';
+import { Component, Prop, Element } from '@stencil/core';
 import { Service } from '../../service/service';
-import { autorun } from 'mobx';
-
 
 @Component({
   tag: 'poc-app',
@@ -11,86 +9,53 @@ export class PocApp {
 
   @Element() element: HTMLElement
 
-  @State() features: any
-
   @Prop() apiUrl: string
   @Prop() environment: string
 
   private service: Service
-  private rendered: NodeListOf<Element>
+
+
+  // Lifecycle
+  //
 
   componentWillLoad() {
     console.log('PocApp.componentWillLoad()')
 
-    this.updateRenderedReferences()
-    this.hideAll()
-
-    this.service = new Service(this.apiUrl, this.environment)
+    this.service = new Service(this.apiUrl, this.environment, this.element)
     this.service.load()
-
-    autorun(() => {
-      this.features = this.service.features
-    })
   }
 
-  componentWillUpdate() {
-    console.log('PocApp.componentWillUpdate()')
-
-    console.log(this.features)
-
-    this.updateRenderedReferences()
-    this.hideAll() // This is a bit naff, but you get the idea...
-    this.showActive()
-  }
-
-  updateRenderedReferences() {
-    this.rendered = this.element.querySelectorAll('[data-feature]')
-    console.log('PocApp.updateRenderedReferences()', this.rendered)
-  }
-
-  hideAll() {
-    for (let i = 0; i < this.rendered.length; i++) {
-      let _element = this.rendered[i]
-      _element.setAttribute('hidden', 'true')
-    }
-  }
-
-  showActive() {
-    if (!this.features) {
-      return
-    }
-
-    for (let i = 0; i < this.rendered.length; i++) {
-      let _element  = this.rendered[i]
-      let _fName    = _element.getAttribute('data-feature')
-
-      let _isActive = !!this.features[_fName]
-        ? this.features[_fName] === true
-        : false
-
-      console.log(_fName, _isActive)
-
-      if (!_isActive) {
-        continue
-      }
-
-      _element.removeAttribute('hidden')
-    }
+  componentDidUnload() {
+    console.log('PocApp.componentDidUnload()')
+    this.service.unload()
   }
 
   onToggleEnvClick() {
     this.service
-      .setEnvironment(
-        this.service.environment === 'green'
-          ? 'blue'
-          : 'green'
-      )
+      .environment = this.service.environment === 'green'
+        ? 'blue'
+        : 'green'
   }
+
+  // --
 
   render() {
     return (
       <div>
-        <button onClick={() => this.onToggleEnvClick()}>Toggle Environment</button>
+        <main>
+          <stencil-router id="app-router">
+            <stencil-route url='/' component='page-landing' exact={true}></stencil-route>
+            <stencil-route url="/other" component="page-other" exact={true}></stencil-route>
+          </stencil-router>
+        </main>
+
+        <footer>
+          <button onClick={() => this.onToggleEnvClick()}>Toggle Environment</button>
+          <br />
+          <a href='/'>HOME</a>
+          <br />
+          <a href='/other'>OTHER</a>
+        </footer>
       </div>
     )
   }
