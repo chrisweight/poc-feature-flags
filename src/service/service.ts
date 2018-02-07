@@ -1,3 +1,5 @@
+import { Cache } from "@stencil/core/dist/compiler/cache";
+
 export class IFeatures {
   [id: string]: boolean
 }
@@ -38,15 +40,19 @@ export class Service {
   // Public
   //
 
-
-
   public async load() {
     console.log(`Service.load() -> ${this._apiUrl, this._environment}`)
 
-    let response  = await fetch(this._apiUrl + '/' + this._environment)
-    let parsed    = await response.json()
+    try {
+      let request   = fetch(this._apiUrl + '/' + this._environment)
+      let response  = await request
+      let json      = await response.json()
 
-    this._features = parsed.features
+      this._features = json.features
+    }
+    catch(e) {
+      console.log('Error!', e);
+    }
 
     let elements = this.getFeatureElements(this._root)
     this.update(elements)
@@ -71,6 +77,7 @@ export class Service {
 
   // Private
   //
+
 
   private getFeatureElements(fromTarget) {
    return fromTarget.querySelectorAll(`[${Service.ATTR_FEATURE}]`)
