@@ -12,8 +12,12 @@ footer {
     .right {
         margin-left: auto;
 
-        a {
+        stencil-route-link {
           padding-right: 8px;
         }
     }
+}
+
+[hidden] {
+  display: none !important;
 }

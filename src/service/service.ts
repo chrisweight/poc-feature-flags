@@ -2,10 +2,12 @@ export class IFeatures {
   [id: string]: boolean
 }
 
+
 export enum FeaturesEnvironment {
   Green = 'green',
   Blue = 'blue'
 }
+
 
 export class Service {
 
@@ -30,11 +32,10 @@ export class Service {
       })
     })
 
-    this._mObserver
-      .observe(this._root, {
-        childList: true,
-        subtree: true
-      })
+    this._mObserver.observe(this._root, {
+      childList: true,
+      subtree: true
+    })
 
     console.log(`Service! -> ${this._apiUrl, this._environment, this._root}`)
   }
@@ -83,7 +84,7 @@ export class Service {
 
 
   private getFeatureElements(fromTarget) {
-   return fromTarget.querySelectorAll(`[${Service.ATTR_FEATURE}]`)
+    return fromTarget.querySelectorAll(`[${Service.ATTR_FEATURE}]`)
   }
 
   private update(elements) {
