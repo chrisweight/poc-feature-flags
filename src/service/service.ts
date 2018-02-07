@@ -1,10 +1,7 @@
 import { observable, action } from "mobx";
 
 export class IFeatures {
-  [id: string]: {
-    green: boolean,
-    blue: boolean
-  }
+  [id: string]: boolean
 }
 
 export class Service {
