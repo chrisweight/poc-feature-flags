@@ -1,5 +1,5 @@
 import { Component, Prop, Element } from '@stencil/core';
-import { Service, FeaturesEnvironment } from '../../service/service';
+import { FeaturesObserver, FeaturesEnvironment } from '../../service/service';
 
 @Component({
   tag: 'poc-app',
@@ -12,7 +12,7 @@ export class PocApp {
   @Prop() apiUrl: string
   @Prop() environment: string
 
-  private service: Service
+  private service: FeaturesObserver
 
 
   // Lifecycle
@@ -21,7 +21,7 @@ export class PocApp {
   componentWillLoad() {
     console.log('PocApp.componentWillLoad()')
 
-    this.service = new Service(this.apiUrl, this.environment as FeaturesEnvironment, this.element)
+    this.service = new FeaturesObserver(this.apiUrl, this.environment as FeaturesEnvironment, this.element)
     this.service.load()
   }
 

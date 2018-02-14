@@ -9,7 +9,7 @@ export enum FeaturesEnvironment {
 }
 
 
-export class Service extends MutationObserver {
+export class FeaturesObserver extends MutationObserver {
 
   private static ATTR_FEATURE: string = 'data-feature'
 
@@ -17,7 +17,6 @@ export class Service extends MutationObserver {
   private _environment: FeaturesEnvironment
   private _root: Element
   private _features: IFeatures
- // private _mObserver: MutationObserver
 
   readonly config: any = {
     childList: true,
@@ -82,13 +81,13 @@ export class Service extends MutationObserver {
 
 
   private getFeatureElements(fromTarget) {
-    return fromTarget.querySelectorAll(`[${Service.ATTR_FEATURE}]`)
+    return fromTarget.querySelectorAll(`[${FeaturesObserver.ATTR_FEATURE}]`)
   }
 
   private update(elements) {
     for (let i = 0; i < elements.length; i++) {
       let _element  = elements[i]
-      let _fName    = _element.getAttribute(Service.ATTR_FEATURE)
+      let _fName    = _element.getAttribute(FeaturesObserver.ATTR_FEATURE)
 
       let _isActive = !!this._features[_fName]
         ? this._features[_fName] === true
