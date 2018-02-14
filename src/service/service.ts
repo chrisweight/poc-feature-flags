@@ -9,7 +9,7 @@ export enum FeaturesEnvironment {
 }
 
 
-export class Service {
+export class Service extends MutationObserver {
 
   private static ATTR_FEATURE: string = 'data-feature'
 
@@ -17,29 +17,30 @@ export class Service {
   private _environment: FeaturesEnvironment
   private _root: Element
   private _features: IFeatures
-  private _mObserver: MutationObserver
+ // private _mObserver: MutationObserver
 
+  readonly config: any = {
+    childList: true,
+    subtree: true
+  }
 
   constructor(apiUrl: string, environment: FeaturesEnvironment, root: Element) {
-    this._apiUrl      = apiUrl
-    this._environment = environment
-    this._root        = root
 
-    this._mObserver = new MutationObserver(mutations => {
+    super(mutations => {
       mutations.forEach(mutation => {
         let elements = this.getFeatureElements(mutation.target)
         this.update(elements)
       })
     })
 
-    this._mObserver.observe(this._root, {
-      childList: true,
-      subtree: true
-    })
+    this._apiUrl      = apiUrl
+    this._environment = environment
+    this._root        = root
+
+    this.observe(this._root, this.config)
 
     console.log(`Service! -> ${this._apiUrl, this._environment, this._root}`)
   }
-
 
   // Public
   //
@@ -63,10 +64,7 @@ export class Service {
   }
 
   public unload() {
-    if (!!this._mObserver) {
-      this._mObserver.disconnect()
-      this._mObserver = null
-    }
+    this.disconnect()
   }
 
   set environment(value: FeaturesEnvironment) {
